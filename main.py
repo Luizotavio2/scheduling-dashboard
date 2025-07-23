@@ -5,7 +5,7 @@ from PIL import Image
 import seaborn as sns
 from datetime import datetime
 
-st.set_page_config(layout="wide", page_title="Painel de Agendamentos")
+st.set_page_config(layout="wide", page_title="Controle Equipe")
 
 @st.cache_data
 def load_data():
@@ -90,7 +90,7 @@ st.title("📊 Painel de Agendamentos por Colaborador")
 col2, col3 = st.columns([1, 2])
 
 with col2:
-    st.subheader("Comparativo com meta diária")
+    st.subheader("Agendamento por colaborador")
     if not df_dia.empty:
         soma_dia = df_dia[colaboradores].sum()
         soma_dia = soma_dia[soma_dia > 0].dropna().sort_values(ascending=False)
@@ -100,7 +100,9 @@ with col2:
             comparativo = soma_dia.reset_index()
             comparativo.columns = ['Colaborador', 'Agendamentos']
             comparativo["Meta"] = meta_diaria
-            comparativo["% Atingido"] = (comparativo["Agendamentos"] / meta_diaria * 100).astype(int)
+            comparativo["% Atingido"] = (comparativo["Agendamentos"] / meta_diaria * 100).round().astype(int)
+
+
 
             def highlight_row(row):
                 if row["Agendamentos"] >= row["Meta"]:
