@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+from PIL import Image
 import seaborn as sns
 from datetime import datetime
 
@@ -74,6 +75,15 @@ try:
 except Exception as e:
     st.error(f"Erro ao filtrar dados: {str(e)}")
     st.stop()
+
+try:
+    logo = Image.open("logo-synvia.png").convert("RGBA")
+    largura, altura = logo.size
+    fundo = Image.new("RGBA", (largura + 20, altura + 20), (255, 255, 255, 200))
+    fundo.paste(logo, (10, 10), logo)
+    st.image(fundo, width=180)
+except:
+    st.warning("⚠️ Logo não encontrada.")
 
 st.title("📊 Painel de Agendamentos por Colaborador")
 
